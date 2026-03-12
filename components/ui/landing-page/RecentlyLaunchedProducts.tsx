@@ -9,7 +9,6 @@ import { getRecentlyLaunchedProducts } from '@/lib/products/products-select';
 
 
 export default async function RecentlyLaunchedProducts() {
-  "use cache";
    const recentProducts:any = await getRecentlyLaunchedProducts();
   return (
     <section className='py-20 bg-muted*40'>

@@ -1,23 +1,22 @@
-import { SparkleIcon,HomeIcon,CompassIcon,SparklesIcon, UserIcon, LoaderIcon } from "lucide-react";
+"use client";
+import { SparkleIcon, HomeIcon, CompassIcon, SparklesIcon, LoaderIcon } from "lucide-react";
 import { Button } from "../button"
 import Link from "next/link";
-import { SignedIn, SignedOut, SignIn,SignInButton,SignUp, SignUpButton, UserButton } from "@clerk/nextjs";
+// 1. Import 'Show' instead of 'SignedIn' / 'SignedOut'
+import { OrganizationSwitcher, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Suspense } from "react";
+import CustomUserButton from "./custom-user-button";
 
-
-
-const Logo=()=>{
+const Logo = () => {
   return (
-    <Link href="/"className="flex items-center gap-2 group">
+    <Link href="/" className="flex items-center gap-2 group">
       <div className="size-8 rounded-lg bg-primary flex items-center justify-center">
         <SparkleIcon className="size-4 text-primary-foreground"/>
       </div>
-      <span className="text-xl font-bold">i<span className="text-primary">Built</span>This</span>
+      <span className="text-xl font-bold">Dev<span className="text-primary">Connect</span></span>
     </Link>
   )
 }
-
-const isSignedIn=false;
 
 export default function Header() {
   return (
@@ -39,28 +38,32 @@ export default function Header() {
         </nav>
         <div className="flex justify-around items-center gap-3">
           <Suspense fallback={<div><LoaderIcon className="size-4 animate-spin"/></div>}>
-          <SignedOut>
+            
+            {/* 2. Use <Show when="signed-out"> */}
+            <Show when="signed-out">
               <SignInButton />
               <SignUpButton>
                <Button>
                   Sign Up
                 </Button>
               </SignUpButton>
-            </SignedOut>
-            <SignedIn>
+            </Show>
+
+            {/* 3. Use <Show when="signed-in"> */}
+            <Show when="signed-in">
               <Button asChild>
               <Link href="/submit">
                <SparklesIcon className='size-4'/>
                 Submit Project
               </Link>
             </Button>
-              <UserButton />
-            </SignedIn>
+              <CustomUserButton/>
+            </Show>
+
             </Suspense>
           </div>
       </div>
     </div>
-    
    </header>
   )
 }

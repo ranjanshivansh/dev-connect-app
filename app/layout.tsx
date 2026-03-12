@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "iBuiltThis - Share your Creations, Discover New Launches",
+  title: "DevConnect - Share your Creations, Discover New Launches",
   description: "A community platform for creators to showcase their apps, AI tools, SaaS products, and creative projects. Authentic launches, real builders, genuine feedback.",
 };
 

@@ -7,12 +7,12 @@ import StatsCard from "./StatsCard";
 function HeroSection() {
   const statdata=[
     {
-      icon:RocketIcon, value:"2.5K+",label:"Projects Shared"
+      icon:RocketIcon, value:"10",label:"Projects Shared"
     },
      {
-      icon:UsersIcon, value:"10K+",label:"Active Creators",hasBorder:true,
+      icon:UsersIcon, value:"3+",label:"Active Creators",hasBorder:true,
     },{
-      icon:EyeIcon, value:"50K+",label:"Monthly Visitors"
+      icon:EyeIcon, value:"1K+",label:"Monthly Visitors"
     }
   ]
   const LiveBadge=()=>{
