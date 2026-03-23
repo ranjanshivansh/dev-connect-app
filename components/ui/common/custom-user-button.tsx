@@ -1,12 +1,20 @@
 "use client";
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
-import { Building2Icon, BuildingIcon } from "lucide-react";
-import { Button } from "../button";
-import Link from "next/link";
+
+import { OrganizationSwitcher, UserButton, useUser } from "@clerk/nextjs";
+import { BuildingIcon, ShieldIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function CustomUserButton() {
+  const { user } = useUser();
+  const router = useRouter();
+
+  const isAdmin =
+    user?.primaryEmailAddress?.emailAddress === "ranjanshivansh08@gmail.com";
+
   return (
     <UserButton>
+
+      {/* Organization (this is fine) */}
       <UserButton.UserProfilePage
         label="Organizations"
         labelIcon={<BuildingIcon className="size-4" />}
@@ -14,32 +22,21 @@ export default function CustomUserButton() {
       >
         <div className="p-4">
           <h2>Manage Organization</h2>
-          <OrganizationSwitcher
-            hidePersonal={true}
-            afterCreateOrganizationUrl={"/submit"}
-            afterSelectPersonalUrl={"/submit"}
-            appearance={{
-              elements: {
-                rootBox: "w-full",
-              },
-            }}
+          <OrganizationSwitcher hidePersonal={true} />
+        </div>
+      </UserButton.UserProfilePage>
+
+      {/* 🔥 ADD THIS INSTEAD */}
+      <UserButton.MenuItems>
+        {isAdmin && (
+          <UserButton.Action
+            label="Admin Panel"
+            labelIcon={<ShieldIcon className="size-4" />}
+            onClick={() => router.push("/admin")}
           />
-        </div>
-      </UserButton.UserProfilePage>
-      <UserButton.UserProfilePage
-        label="Admin"
-        labelIcon={<Building2Icon className="size-4" />}
-        url="admin"
-      >
-        <div className="p-4">
-          <h2>Admin Panel</h2>
-          <Link href="/admin" className="w-full justify-start">
-            <Button size="default" className="w-full justify-start">
-              Go to Admin Panel
-            </Button>
-          </Link>
-        </div>
-      </UserButton.UserProfilePage>
+        )}
+      </UserButton.MenuItems>
+
     </UserButton>
   );
 }
