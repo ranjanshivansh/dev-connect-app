@@ -36,12 +36,14 @@ export const products = pgTable(
     submittedBy: varchar("submitted_by", { length: 120 }).default("anonymous"),
     technologies: json("technologies").$type<string[]>(),//technologies used
     githubUrl:text("github_url"),//githubUrl
-    
+    similarityScore: integer("similarity_score"),
+    similarProjectId: integer("similar_project_id"),
+    codeText: text("code_text"),
     userId: varchar("user_id", { length: 255 }), // Clerk user ID
 
     // Organization reference (for backend queries only)
     organizationId: varchar("organization_id", { length: 255 }), // Clerk org ID
- 
+     
 
 
   },

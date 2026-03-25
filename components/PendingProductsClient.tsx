@@ -6,8 +6,10 @@ import { ProductType } from "@/types";
 
 export default function PendingProductsClient({
   products,
+  similarMap
 }: {
   products: ProductType[];
+  similarMap:Map<number,string>
 }) {
   const [items, setItems] = useState(products);
 
@@ -22,6 +24,7 @@ export default function PendingProductsClient({
           key={product.id}
           product={product}
           onRemove={removeItem}
+          similarName={similarMap.get(product.id)}
         />
       ))}
     </div>

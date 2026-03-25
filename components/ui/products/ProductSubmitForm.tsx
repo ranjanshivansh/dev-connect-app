@@ -16,11 +16,13 @@ const initialState:FormState={
         success:false,
         errors:{},
         message:"",
+        similarity: undefined,
+    similarProject:null, 
 }
 
 export default function ProductSubmitForm() {
 
-    const [state,formAction,isPending]=useActionState<FormState>(addProductAction,initialState);
+    const [state,formAction,isPending]=useActionState(addProductAction,initialState);
     const {errors,message,success}=state;
   return (
     <form className='space-y-6' action={formAction}>

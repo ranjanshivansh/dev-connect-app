@@ -15,6 +15,20 @@
       "when": 1774272556146,
       "tag": "0001_goofy_mentallo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774425616271,
+      "tag": "0002_jittery_nicolaos",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774450034373,
+      "tag": "0003_nosy_piledriver",
+      "breakpoints": true
     }
   ]
 }

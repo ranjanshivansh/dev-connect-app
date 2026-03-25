@@ -17,12 +17,14 @@ import { useRouter } from "next/navigation";
 export default function AdminProductCard({
   product,
   onRemove,
+  similarName,
 }: {
   product: ProductType;
   onRemove?: (id: number) => void;
+  similarName?: string;
 }) {
   const [isPending, startTransition] = useTransition();
-  const router=useRouter();
+  const router = useRouter();
   return (
     <Card className="border rounded-lg p-6 bg-background hover:shadow-md transition-shadow">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
@@ -52,6 +54,23 @@ export default function AdminProductCard({
                 </Badge>
               ))}
             </div>
+            {product.similarityScore && (
+              <div
+                className={cn(
+                  "mt-2 text-xs px-3 py-1 rounded-md w-fit font-medium",
+                  product.similarityScore > 80
+                    ? "bg-red-100 text-red-700"
+                    : "bg-yellow-100 text-yellow-700",
+                )}
+              >
+                {product.similarityScore}% similar{" to  "}
+                {similarName && (
+                  <span className="underline cursor-pointer">
+                    {similarName}
+                  </span>
+                )}
+              </div>
+            )}
             <div className="flex gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <p>
                 <span className="font-bold">By:</span> {product.submittedBy}
@@ -91,14 +110,14 @@ export default function AdminProductCard({
               startTransition(async () => {
                 onRemove?.(product.id); // 🔥 THIS IS THE FIX
                 await approveProductAction(product.id);
-                router.refresh()
+                router.refresh();
               });
             }}
             onReject={() => {
               startTransition(async () => {
                 onRemove?.(product.id); // 🔥
                 await rejectProductAction(product.id);
-                router.refresh()
+                router.refresh();
               });
             }}
             isPending={isPending}

@@ -8,13 +8,13 @@ import { db } from "@/db";
 import { products } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { refresh, revalidatePath } from "next/cache";
+import { fetchGithubReadme } from "../github";
+import { getRepoCode } from "../github-code";
+import { calculateProjectSimilarity } from "../smilarity";
+import { FormState } from "@/types";
 
-type FormState={
-    success:boolean,
-    errors?:Record<string,string[]>
-    message:string
-}
-export const addProductAction=async (prevState:FormState,formData:FormData)=>{
+  
+export const addProductAction=async (prevState:FormState,formData:FormData):Promise<FormState>=>{
     console.log(formData);
     //auth
     try{
@@ -48,19 +48,66 @@ export const addProductAction=async (prevState:FormState,formData:FormData)=>{
             };
         }
         const {name,slug,tagline,description,websiteUrl,tag,technologies,githubUrl}=validateData.data;
-
         const tagsArray=tag?tag.filter((tagg)=>typeof tagg==="string"):[];
         const technologiesArray=technologies?technologies.filter((technology)=>typeof technology==="string"):[];
-        //transform the data
+        let fullDescription = description;
+        let code = "";
 
+        if (githubUrl) {
+            const readme = await fetchGithubReadme(githubUrl);
+            const repoCode = await getRepoCode(githubUrl);
+
+            fullDescription += " " + readme;
+            code = repoCode;
+        }
+
+        const existingProjects = await db
+                                        .select()
+                                        .from(products)
+                                        .where(eq(products.status, "approved"));
+        
+        let maxSimilarity = 0;
+        let mostSimilarProject: any = null;
+
+        const newProjectForComparison = {
+            description: fullDescription,
+            tags:tag,
+            technologies: technologiesArray,
+            code,
+        };
+
+        for (const project of existingProjects) {
+            const score = calculateProjectSimilarity(
+                newProjectForComparison,
+                {
+                    description: project.description,
+                    tags: project.tags || [],
+                    technologies: project.technologies || [],
+                    code: project.codeText||"", // MVP (no stored code yet)
+                }
+            );
+
+            if (score > maxSimilarity) {
+                maxSimilarity = score;
+                mostSimilarProject = project;
+            }
+        }
+        console.log("codelength"+code.length);
         await db.insert(products)
-                .values({name,slug,tagline,description,technologies,githubUrl,websiteUrl,tags:tagsArray,status:"pending",submittedBy:userEmail,organizationId:orgId,userId:userId,});
+                .values({name,slug,tagline,description:fullDescription,technologies,githubUrl,websiteUrl,tags:tagsArray,status:"pending",submittedBy:userEmail,organizationId:orgId,userId:userId,similarityScore: maxSimilarity,similarProjectId: mostSimilarProject?.id || null,codeText:code});
                 revalidatePath("/");
-                return{
-                    success:true,
-                    errors:{},
-                    message:"Product submitted successfully! It will be reviewed shortly.",
-                };
+                return {
+                        success: true,
+                        errors: {},
+                        message: "Product submitted successfully!",
+                        similarity: maxSimilarity,
+                        similarProject: mostSimilarProject
+                            ? {
+                                id: mostSimilarProject.id,
+                                name: mostSimilarProject.name,
+                            }
+                            : null,
+                    };
     }catch(error){
         console.error(error);
         if(error instanceof z.ZodError){
@@ -72,7 +119,7 @@ export const addProductAction=async (prevState:FormState,formData:FormData)=>{
         }
         return{
         success:false,
-        errors:error,
+        errors:{},
         message:"Failed to Submit Product",
     }
     }
