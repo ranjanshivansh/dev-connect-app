@@ -10,9 +10,15 @@ import { ProductType } from "@/types";
 export default function AdminActions({
   status,
   productId,
+  onApprove,
+  onReject,
+  isPending,
 }: {
   status: string;
   productId: ProductType["id"];
+  onApprove: ()=>void;
+  onReject: ()=>void;
+  isPending:boolean;
 }) {
   const handleApprove = async () => {
     console.log("Approve");
@@ -30,17 +36,19 @@ export default function AdminActions({
             variant="default"
             className="hover:cursor-pointer"
             onClick={handleApprove}
+            disabled={isPending}
           >
             <CheckCircleIcon className="size-4" />
-            Approve
+            {isPending?"...":"Approve"}
           </Button>
           <Button
             variant="destructive"
             className="hover:cursor-pointer"
             onClick={handleReject}
+            disabled={isPending}
           >
             <XCircleIcon className="size-4" />
-            Reject
+           {isPending?"...":"Reject"}
           </Button>
         </div>
       )}

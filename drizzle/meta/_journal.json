@@ -8,6 +8,13 @@
       "when": 1767591377224,
       "tag": "0000_wandering_baron_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774272556146,
+      "tag": "0001_goofy_mentallo",
+      "breakpoints": true
     }
   ]
 }

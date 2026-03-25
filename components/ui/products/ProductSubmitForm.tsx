@@ -83,6 +83,28 @@ export default function ProductSubmitForm() {
          />
        </div>
        <div className="space-y-2">
+        <FormField label="Github Repositry"
+         id="githubUrl"
+         name="githubUrl"
+         placeholder="https://github.com/user/project"
+         required
+         onChange={()=>{}}
+         error={errors?.githubUrl??[]}
+         helperText="Enter your github repo link"
+         />
+       </div>
+       <div className="space-y-2">
+        <FormField label="Technologies Used"
+         id="technologies"
+         name="technologies"
+         placeholder="React, Express, MongoDB"
+         required
+         onChange={()=>{}}
+         error={errors?.technologies??[]}
+         helperText="Comma-separated tags (e.g., React, Express, MongoDB)"
+         />
+       </div>
+       <div className="space-y-2">
         <FormField label="Tags"
          id="tag"
          name="tag"

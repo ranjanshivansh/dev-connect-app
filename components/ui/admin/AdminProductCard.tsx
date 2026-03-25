@@ -1,3 +1,4 @@
+"use client";
 import { ProductType } from "@/types";
 import { Trash2Icon } from "lucide-react";
 import { Badge } from "../badge";
@@ -5,12 +6,23 @@ import { Button } from "../button";
 import { Card, CardDescription, CardFooter, CardTitle } from "../card";
 import AdminActions from "./AdminActions";
 import { cn } from "@/lib/utils";
+import { useState, useTransition } from "react";
+import {
+  approveProductAction,
+  rejectProductAction,
+} from "@/lib/admin/admin-actions";
+import { refresh } from "next/cache";
+import { useRouter } from "next/navigation";
 
 export default function AdminProductCard({
   product,
+  onRemove,
 }: {
   product: ProductType;
+  onRemove?: (id: number) => void;
 }) {
+  const [isPending, startTransition] = useTransition();
+  const router=useRouter();
   return (
     <Card className="border rounded-lg p-6 bg-background hover:shadow-md transition-shadow">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
@@ -25,7 +37,7 @@ export default function AdminProductCard({
                 product.status === "approved" &&
                   "bg-green-500/10 text-green-600 border-green-500",
                 product.status === "rejected" &&
-                  "bg-red-500/10 text-red-500 border-red-500"
+                  "bg-red-500/10 text-red-500 border-red-500",
               )}
             >
               {product.status}
@@ -72,7 +84,25 @@ export default function AdminProductCard({
           </CardFooter>
         </div>
         <div className="lg:shrink-0">
-          <AdminActions status={product.status ?? ""} productId={product.id} />
+          <AdminActions
+            status={product.status ?? ""}
+            productId={product.id}
+            onApprove={() => {
+              startTransition(async () => {
+                onRemove?.(product.id); // 🔥 THIS IS THE FIX
+                await approveProductAction(product.id);
+                router.refresh()
+              });
+            }}
+            onReject={() => {
+              startTransition(async () => {
+                onRemove?.(product.id); // 🔥
+                await rejectProductAction(product.id);
+                router.refresh()
+              });
+            }}
+            isPending={isPending}
+          />
         </div>
       </div>
     </Card>

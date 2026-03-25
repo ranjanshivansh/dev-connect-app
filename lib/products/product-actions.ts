@@ -47,13 +47,14 @@ export const addProductAction=async (prevState:FormState,formData:FormData)=>{
                 message:"Invalid Data",
             };
         }
-        const {name,slug,tagline,description,websiteUrl,tag}=validateData.data;
+        const {name,slug,tagline,description,websiteUrl,tag,technologies,githubUrl}=validateData.data;
 
         const tagsArray=tag?tag.filter((tagg)=>typeof tagg==="string"):[];
+        const technologiesArray=technologies?technologies.filter((technology)=>typeof technology==="string"):[];
         //transform the data
 
         await db.insert(products)
-                .values({name,slug,tagline,description,websiteUrl,tags:tagsArray,status:"pending",submittedBy:userEmail,organizationId:orgId,userId:userId,});
+                .values({name,slug,tagline,description,technologies,githubUrl,websiteUrl,tags:tagsArray,status:"pending",submittedBy:userEmail,organizationId:orgId,userId:userId,});
                 revalidatePath("/");
                 return{
                     success:true,

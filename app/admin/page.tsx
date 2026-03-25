@@ -1,3 +1,4 @@
+import PendingProductsClient from '@/components/PendingProductsClient';
 import AdminProductCard from '@/components/ui/admin/AdminProductCard';
 import StatsCard from '@/components/ui/admin/StatsCard';
 import SectionHeader from '@/components/ui/common/SectionHeader';
@@ -43,11 +44,7 @@ async function AdminDashboardData() {
                     {/* Added a quick fallback if there are no products */}
                     {pendingProducts.length === 0 ? (
                         <p className="text-muted-foreground text-sm">No pending products to review.</p>
-                    ) : (
-                        pendingProducts.map((product) => (
-                            <AdminProductCard key={product.id} product={product}/>
-                        ))
-                    )}
+                    ) : <PendingProductsClient products={pendingProducts} />}
                 </div>
             </section>
         </>
