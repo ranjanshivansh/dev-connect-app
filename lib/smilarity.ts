@@ -11,7 +11,7 @@ function normalizeCode(code: string): string[] {
     .toLowerCase()
     .replace(/[^a-z0-9]/g, " ")
     .split(/\s+/)
-    .filter(t => t.length > 2); // 🔥 remove noise
+    .filter(t => t.length > 2); 
 }
 
 function jaccardSimilarity(
@@ -33,28 +33,21 @@ function jaccardSimilarity(
 function codeSimilarity(codeA: string, codeB: string): number {
   const tokensA = normalizeCode(codeA);
   const tokensB = normalizeCode(codeB);
-
   const freqA: Record<string, number> = {};
   const freqB: Record<string, number> = {};
-
   for (const t of tokensA) {
     freqA[t] = (freqA[t] || 0) + 1;
   }
-
   for (const t of tokensB) {
     freqB[t] = (freqB[t] || 0) + 1;
   }
-
   let dot = 0;
   let magA = 0;
   let magB = 0;
-
   const allTokens = new Set([...tokensA, ...tokensB]);
-
   for (const token of allTokens) {
     const a = freqA[token] || 0;
     const b = freqB[token] || 0;
-
     dot += a * b;
     magA += a * a;
     magB += b * b;

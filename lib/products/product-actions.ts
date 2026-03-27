@@ -56,8 +56,6 @@ export const addProductAction=async (prevState:FormState,formData:FormData):Prom
         if (githubUrl) {
             const readme = await fetchGithubReadme(githubUrl);
             const repoCode = await getRepoCode(githubUrl);
-
-            fullDescription += " " + readme;
             code = repoCode;
         }
 

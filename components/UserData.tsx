@@ -37,7 +37,7 @@ export default async function UserData({ userId }: { userId: string }) {
 
   let level = "Beginner";
 
-  if (totalVotes > 20) level = "Intermediate";
+  if (totalVotes > 5) level = "Intermediate";
   if (totalVotes > 100) level = "Advanced";
 
   const topTech = chartData[0];
