@@ -213,10 +213,13 @@
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
-
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
 @layer base {
   * {
-    @apply border-border outline-ring/50 p-0 m-0;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
@@ -229,8 +232,8 @@
   }
 
   .wrapper {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
-  }
+  @apply max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8;
+}
 
   /* Card hover effect - used across product cards */
   .card-hover {
