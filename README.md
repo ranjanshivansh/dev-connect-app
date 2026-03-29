@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevConnect – Demo Video
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+DevConnect is a full-stack platform that allows developers to share, explore, and validate projects using an intelligent code-based similarity detection system.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+It ensures originality by comparing newly submitted projects with existing ones using both metadata and actual source code.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo Video
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+👇🏽 Watch the full project demonstration here:
 
-## Learn More
+https://drive.google.com/file/d/1GQsu1fx9guuTD9Q84xBSG9C1ZT4UfEVP/view?usp=sharing
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features Demonstrated
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- User Authentication (Clerk)
+- Project Submission with GitHub Integration
+- Automatic Code Extraction using GitHub API
+- Similarity Detection System
+- Cosine Similarity (Code Comparison)
+- Jaccard Similarity (Tags & Description)
+- Duplicate Project Detection
+- Admin Dashboard (Approve / Reject)
+- Voting System
+- User Profile with Stats
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Highlight: Duplicate Detection
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+In the demo video:
+
+- A project is submitted using one account  
+- The same project is submitted again using another account  
+- The system detects high similarity (70–90%)  
+- Admin dashboard displays a warning  
+- Duplicate project is reviewed and rejected  
+
+---
+
+## Tech Stack
+
+- Frontend: Next.js (App Router) + TypeScript  
+- Styling: Tailwind CSS  
+- Authentication: Clerk  
+- Backend: Server Actions  
+- Database: PostgreSQL + Drizzle ORM  
+- External API: GitHub API  
+
+---
+
+## How Similarity Works
+
+1. Fetch GitHub repository code  
+2. Normalize and tokenize source files  
+3. Apply cosine similarity for code comparison  
+4. Use Jaccard similarity for text fields  
+5. Generate similarity score (0–100%)  
+
+---
+
+## Expected Output
+
+- Same project → 70–95% similarity  
+- Similar project → 40–70%  
+- Different project → <30%  
+
+---
+
+## Purpose of Demo
+
+This video demonstrates:
+
+- End-to-end workflow of the system  
+- Real-time duplicate detection  
+- Admin moderation process  
+- Practical use of similarity algorithms  
+
+---
+
+## Author
+
+Shivansh Ranjan  
+DevConnect Project  
+
+---
+
+## Note
+
+This project showcases a real-world implementation of:
+
+- Full-stack development  
+- API integration  
+- Algorithm-based similarity detection  
+- Admin moderation workflows  
