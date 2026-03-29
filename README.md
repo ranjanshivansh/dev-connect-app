@@ -10,9 +10,9 @@ It ensures originality by comparing newly submitted projects with existing ones 
 
 ## Demo Video
 
-👇🏽 Watch the full project demonstration here:
+👇🏽 [Watch the full project demonstration here:]
 
-https://drive.google.com/file/d/1GQsu1fx9guuTD9Q84xBSG9C1ZT4UfEVP/view?usp=sharing
+(https://drive.google.com/file/d/1GQsu1fx9guuTD9Q84xBSG9C1ZT4UfEVP/view?usp=sharing)
 
 ---
 
