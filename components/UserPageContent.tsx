@@ -1,7 +1,8 @@
-import { unstable_noStore as noStore } from "next/cache";
+import { use } from "react";
 import UserData from "@/components/UserData";
+import { unstable_noStore as noStore } from "next/cache";
 
-export default async function UserPageContent({
+export default function UserContent({
   params,
 }: {
   params: Promise<{ userId: string }>;
@@ -9,7 +10,7 @@ export default async function UserPageContent({
 
   noStore();
 
-  const { userId } = await params;
+  const { userId } = use(params);
 
   return <UserData userId={userId} />;
 }
