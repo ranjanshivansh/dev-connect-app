@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { eq, desc, and } from "drizzle-orm";
@@ -8,6 +9,7 @@ import { Calendar1Icon } from "lucide-react";
 import TechChart from "@/components/ui/TechCharts";
 
 export default async function UserData({ userId }: { userId: string }) {
+  noStore();
   const clerk = await clerkClient();
   const user = await clerk.users.getUser(userId);
 
