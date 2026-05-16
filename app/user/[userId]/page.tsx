@@ -1,17 +1,21 @@
-import UserData from "@/components/UserData";
-import { Loader2Icon } from "lucide-react";
 import { Suspense } from "react";
+import { Loader2Icon } from "lucide-react";
+import UserPageContent from "@/components/UserPageContent";
 
-
-export default async function Page({ params }: { params: { userId: string } }) {
-    const { userId } = await params; 
+export default function Page({
+  params,
+}: {
+  params: Promise<{ userId: string }>;
+}) {
   return (
-    <Suspense fallback={
-      <div className="flex justify-center  items-center py-16">
-        <Loader2Icon className="animate-spin size-6 text-gray-500"/>
-      </div>
-    }>
-      <UserData userId={userId} />
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center py-16">
+          <Loader2Icon className="animate-spin size-6 text-gray-500" />
+        </div>
+      }
+    >
+      <UserPageContent params={params} />
     </Suspense>
   );
 }
