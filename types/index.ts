@@ -15,3 +15,17 @@ export type FormState = {
 };
 
 export type ProductType=InferSelectModel<typeof products>;
+
+export type UserDataResponse = {
+  user: {
+    firstName: string;
+    lastName: string;
+    imageUrl: string;
+    createdAt: number;
+    primaryEmailAddress?: {
+      emailAddress: string;
+    };
+  };
+
+  userProducts: ProductType[];
+};

@@ -13,7 +13,7 @@ export default function ClientUserSection() {
     user.primaryEmailAddress?.emailAddress === "ranjanshivansh08@gmail.com";
   return (
     <>
-      <Link href={`/user/${user.id}`}>
+      <Link href={'/user'}>
         <Button variant={"secondary"}>Profile</Button>
       </Link>
 

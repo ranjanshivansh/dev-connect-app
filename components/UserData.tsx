@@ -1,32 +1,42 @@
-import { unstable_noStore as noStore } from "next/cache";
-import { db } from "@/db";
-import { products } from "@/db/schema";
-import { eq, desc, and } from "drizzle-orm";
-import { clerkClient } from "@clerk/nextjs/server";
+"use client";
 import ProductCard from "@/components/ui/products/ProductCard";
 import EmptyState from "@/components/ui/common/EmptyState";
-import { Calendar1Icon } from "lucide-react";
+import { Calendar1Icon, Loader2 } from "lucide-react";
 import TechChart from "@/components/ui/TechCharts";
+import { useEffect, useState } from "react";
+import { UserDataResponse } from "@/types";
 
-export default async function UserData({ userId }: { userId: string }) {
-  noStore();
-  const clerk = await clerkClient();
-  const user = await clerk.users.getUser(userId);
+export default function UserData() {
+ 
+    const [data, setData] = useState<UserDataResponse | null>(null);
 
-  const userProducts = await db
-    .select()
-    .from(products)
-    .where(and(eq(products.userId, userId), eq(products.status, "approved")))
-    .orderBy(desc(products.createdAt));
+  useEffect(() => {
 
-  const totalVotes = userProducts.reduce(
+    fetch("/api/user-data")
+      .then((res) => res.json())
+      .then((data: UserDataResponse) => {
+        setData(data);
+      });
+
+  }, []);
+
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center py-16">
+        <Loader2 className="animate-spin" size={20} />
+      </div>
+    );
+  }
+
+   const { user, userProducts } = data;
+  const totalVotes = userProducts?.reduce(
     (sum, p) => sum + (p.voteCount || 0),
     0,
   );
 
   const techCount: Record<string, number> = {};
 
-  userProducts.forEach((p) => {
+  userProducts?.forEach((p) => {
     p.technologies?.forEach((tech) => {
       techCount[tech] = (techCount[tech] || 0) + 1;
     });
